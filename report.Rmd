@@ -1,0 +1,220 @@
+---
+title: "Global Diabetes and Kidney Disease Burden Intelligence Report"
+author: "KIPKOECH PATRICK"
+date: "17 February 2026"
+format: pdf
+---
+
+\begin{center}
+\textbf{Registration Number:} SDS6/48451/2025 \\[1cm]
+
+\textbf{Course Title:} Statistical Computing \\[0.5cm]
+\textbf{Course Code:} SDS6103 \\[1cm]
+
+\textbf{Program:} MSc Data Science \\[0.5cm]
+\textbf{Faculty:} Faculty of Science and Technology \\[0.5cm]
+\textbf{Department:} Department of Mathematics \\[1cm]
+
+\textbf{Lecturer:} Dr. Timothy Kamanu \\[1cm]
+\end{center}
+
+\newpage
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+library(tidyverse)
+library(forecast)
+library(cluster)
+library(knitr)
+
+# Load cleaned dataset (same as app.R)
+diabetes_data <- read_csv("data/diabetes_clean.csv", show_col_types = FALSE)
+```
+
+\newpage
+
+# 1. Introduction
+
+Non-communicable diseases (NCDs) are a leading cause of global mortality and long-term disability. Among them, diabetes and kidney diseases contribute significantly to Disability-Adjusted Life Years (DALYs), reflecting both premature mortality and years lived with disability.
+
+This report provides a data-driven assessment of global burden patterns, geographic differences, country rankings, clustering behavior, and 5-year forecasts using time-series modeling.
+
+---
+
+# 2. Data Source
+
+The dataset was obtained from **Our World in Data** and contains annual DALY estimates for diabetes and kidney diseases across countries.
+
+Source:  
+https://ourworldindata.org/grapher/disease-burden-from-ncds
+
+Only the cleaned dataset used in the Shiny dashboard is included in this submission.
+
+---
+
+# 3. Executive Overview (Global Trend)
+
+```{r}
+global_trend <- diabetes_data %>%
+  group_by(year) %>%
+  summarise(global_total = sum(daly, na.rm = TRUE), .groups = "drop")
+
+ggplot(global_trend, aes(year, global_total)) +
+  geom_line(linewidth = 1.2, color = "steelblue") +
+  labs(
+    title = "Global Diabetes & Kidney Disease Burden (Total DALYs)",
+    x = "Year",
+    y = "Total DALYs"
+  ) +
+  theme_minimal()
+```
+
+**Insight:**  
+The global burden demonstrates a persistent upward trajectory, reflecting population growth, aging demographics, and rising lifestyle-related risk factors.
+
+\newpage
+
+# 4. Country Benchmarking
+
+## 4.1 Top 10 Countries (Latest Year)
+
+```{r}
+latest_year <- max(diabetes_data$year)
+
+top10 <- diabetes_data %>%
+  filter(year == latest_year) %>%
+  arrange(desc(daly)) %>%
+  slice(1:10)
+
+ggplot(top10, aes(reorder(country, daly), daly)) +
+  geom_col(fill = "darkred") +
+  coord_flip() +
+  labs(
+    title = paste("Top 10 Countries by DALYs in", latest_year),
+    x = "Country",
+    y = "DALYs"
+  ) +
+  theme_minimal()
+```
+
+**Observation:**  
+High-population countries dominate total DALYs, reflecting both population size and epidemiological transition effects.
+
+\newpage
+
+## 4.2 Selected Country Comparison
+
+```{r}
+selected_countries <- c("United States", "India", "China", "Brazil", "Germany")
+
+diabetes_data %>%
+  filter(country %in% selected_countries) %>%
+  ggplot(aes(year, daly, color = country)) +
+  geom_line(linewidth = 1.1) +
+  labs(
+    title = "Disease Burden in Selected Countries",
+    x = "Year",
+    y = "DALYs",
+    color = "Country"
+  ) +
+  theme_minimal()
+```
+
+**Insight:**  
+Rapidly developing nations exhibit strong growth trends, while high-income countries show steadier but sustained burden levels.
+
+---
+
+# 5. Continental Comparison
+
+continent_summary <- diabetes_data %>%
+  filter(!is.na(continent)) %>%
+  group_by(continent, year) %>%
+  summarise(total = sum(daly, na.rm = TRUE), .groups = "drop")
+
+ggplot(continent_summary, aes(year, total, color = continent)) +
+  geom_line(linewidth = 1.1) +
+  labs(
+    title = "Continental Comparison of Disease Burden",
+    x = "Year",
+    y = "Total DALYs"
+  ) +
+  theme_minimal()
+
+**Observation:**  
+Asia carries the largest burden, followed by Africa and Europe, reflecting demographic and epidemiological differences.
+
+\newpage
+
+# 6. Country Clustering Analysis
+
+```{r}
+latest_data <- diabetes_data %>%
+  filter(year == latest_year) %>%
+  select(country, daly)
+
+scaled_data <- scale(latest_data$daly)
+
+set.seed(123)
+kmeans_model <- kmeans(scaled_data, centers = 3)
+
+latest_data$cluster <- as.factor(kmeans_model$cluster)
+
+ggplot(latest_data, aes(x = cluster, y = daly)) +
+  geom_boxplot(fill = "skyblue") +
+  labs(
+    title = "Country Clusters Based on Disease Burden",
+    x = "Cluster",
+    y = "DALYs"
+  ) +
+  theme_minimal()
+```
+
+**Insight:**  
+Countries naturally group into low-, medium-, and high-burden clusters, indicating structural global health inequalities.
+
+\newpage
+
+# 7. Forecast & Projection (5-Year ARIMA Model)
+
+```{r}
+ts_data <- ts(global_trend$global_total, 
+              start = min(global_trend$year), 
+              frequency = 1)
+
+model <- auto.arima(ts_data)
+forecast_5 <- forecast(model, h = 5)
+
+plot(forecast_5)
+```
+
+**Forecast Interpretation:**  
+The ARIMA model predicts continued upward growth over the next five years, suggesting increasing health system pressure if no major intervention occurs.
+
+---
+
+# 8. Conclusion
+
+This intelligence-driven analysis reveals:
+
+- A sustained global increase in diabetes and kidney disease burden.
+- Significant variation across countries and continents.
+- Structural clustering of countries into burden tiers.
+- A projected continuation of upward trends over the next five years.
+
+The findings emphasize the need for:
+
+- Preventive healthcare policies
+- Early detection systems
+- Targeted interventions in high-burden regions
+- Long-term investment in NCD management
+
+---
+
+# References
+
+Our World in Data (2024). Disease burden from non-communicable diseases.  
+https://ourworldindata.org/grapher/disease-burden-from-ncds
+
+World Health Organization (2023). Noncommunicable diseases fact sheet.  
+https://www.who.int/news-room/fact-sheets/detail/noncommunicable-diseases
