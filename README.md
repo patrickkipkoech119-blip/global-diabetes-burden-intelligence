@@ -34,6 +34,13 @@ sf
 
 rnaturalearth
 
+### 📈 Analytical Methods Applied
+- Time Series Modeling (ARIMA)
+- Inequality Measurement (Gini Coefficient)
+- Cross-country benchmarking
+- Geospatial data integration
+- Forecast modeling
+
 📊 Key Features
 
 Executive KPI dashboard
