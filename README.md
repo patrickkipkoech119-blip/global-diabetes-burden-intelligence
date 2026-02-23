@@ -1,4 +1,7 @@
-🌍 Global Diabetes Burden Intelligence System
+# 🌍 Global Diabetes Burden Intelligence System
+
+![Dashboard Preview](dashboard_preview.png)
+
 📌 Overview
 
 An interactive Shiny dashboard analyzing global diabetes burden trends using:
