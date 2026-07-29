@@ -4,56 +4,80 @@ An interactive R Shiny dashboard for exploring the global burden of diabetes usi
 
 ---
 
-## Project Overview
+## 📌 Project Overview
 
-This project analyzes worldwide diabetes burden trends using interactive visualizations built with R Shiny.
+This project was developed as part of my MSc in Data Science at the University of Nairobi.
 
-The dashboard allows users to:
+The dashboard helps users explore:
 
-- Explore global diabetes burden by country
-- Compare continents
-- Analyze country rankings
-- Visualize disease distribution on an interactive world map
-- Forecast future disease burden
-- Download tables and reports
+- Global diabetes burden
+- Country rankings
+- Continental comparisons
+- Geographic visualization
+- Forecasting trends
+- Interactive dashboards
+
+The project demonstrates practical skills in data science, statistical computing, visualization, and dashboard development.
 
 ---
 
-## Technologies Used
+## 📊 Features
+
+- Interactive R Shiny Dashboard
+- Data Cleaning
+- Exploratory Data Analysis (EDA)
+- Choropleth World Maps
+- Country Rankings
+- Continent Comparison
+- Forecasting using ARIMA
+- Downloadable Tables
+- Interactive Plotly Visualizations
+
+---
+
+## 🛠 Technologies Used
 
 - R
 - Shiny
 - tidyverse
 - ggplot2
-- plotly
-- leaflet
-- DT
+- Plotly
+- Leaflet
 - forecast
+- DT
 - sf
+- rnaturalearth
 
 ---
 
-## Repository Structure
+## 📂 Project Structure
 
 ```
-R/
-    01_data_preparation.R
-    02_exploratory_analysis.R
-    03_dashboard_datasets.R
-    04_shiny_dashboard.R
+global-diabetes-burden-intelligence/
 
-data/
-    ncd_data_clean.csv
-
-report/
-    Global_NCD_Report.pdf
-
-screenshots/
+│
+├── data/
+│   └── ncd_data_clean.csv
+│
+├── R/
+│   ├── 01_data_preparation.R
+│   ├── 02_exploratory_analysis.R
+│   ├── 03_dashboard_datasets.R
+│   └── 04_shiny_dashboard.R
+│
+├── report/
+│   ├── Global_NCD_Report.pdf
+│   └── images/
+│
+├── screenshots/
+│
+├── README.md
+└── LICENSE
 ```
 
 ---
 
-## Dashboard Screenshots
+## 📸 Dashboard Screenshots
 
 ### Dashboard Home
 
@@ -61,7 +85,7 @@ screenshots/
 
 ---
 
-### Interactive World Map
+### World Map
 
 ![World Map](screenshots/world_map.png)
 
@@ -73,33 +97,52 @@ screenshots/
 
 ---
 
-### Continent Comparison
+### Continent Summary
 
 ![Continent Summary](screenshots/continent_summary.png)
 
 ---
 
-### Forecast Analysis
+### Forecast
 
 ![Forecast](screenshots/forecast.png)
 
 ---
 
-## Dataset
+## 📈 Dataset
 
 Global Burden of Disease (GBD)
-1990–2019 Diabetes Burden Dataset
+
+Years Covered:
+
+1990–2019
 
 ---
 
-## Author
+## 🎓 Academic Project
 
-**Patrick Kipkoech**
+University of Nairobi
 
-MSc Data Science — University of Nairobi
+Master of Science in Data Science
+
+Statistical Computing Project
+
+---
+
+## 👤 Author
+
+Patrick Kipkoech
 
 LinkedIn:
+
 https://www.linkedin.com/in/kipkoech-patrick-ba6765387
 
 GitHub:
+
 https://github.com/patrickkipkoech119-blip
+
+---
+
+## 📜 License
+
+MIT License
